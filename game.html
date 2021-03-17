@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<style src = "game.css"></style>
+<body>
+<form onSubmit="go();return false;">
+<input id="input-textbox" type="text" />
+<input type="submit" />
+</form>
+<div class="buttons">
+            <div class="action_btn">
+            <button name="gameSelector1" class="gameSelector" onclick="selectGame(1)">Game#1</button>
+            <button name="gameSelector2" class="gameSelector" onclick="selectGame(2)">Game#2</button>
+            <button name="gameSelector3" class="gameSelector" onclick="selectGame(3)">Game#3</button>
+            <button name="gameSelector4" class="gameSelector" onclick="selectGame(4)">Game#4</button>
+            </div>
+        </div>
+<ul id = "data">
+  <li>Coffee</li>
+  <li>Tea</li>
+  <li>Milk</li>
+</ul>
+<textarea id="output-textbox" rows="20" cols="50"></textarea>
+<button type="button" name="button" onclick="test()">test</button>
+<script src="game.js" charset="utf-8"></script>
+</body>
