@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<style src = "game.css"></style>
-<body>
-<form onSubmit="go();return false;">
+<style src = "style.css"></style>
+
+<body onLoad="getData()">
+
 <input id="input-textbox" type="text" />
-<input type="submit" />
-</form>
+<button name = "answerSubmit" onclick="curGame.checkAnswer()">Answer</button>
 <div class="buttons">
             <div class="action_btn">
             <button name="gameSelector1" class="gameSelector" onclick="selectGame(1)">Game#1</button>
@@ -14,32 +14,110 @@
             </div>
         </div>
 <ul id = "data">
-  <li id = "majeur">
+  <li id = "majeur">Majeur
     <ul>
-      <li id = "id">nom1</li>
-      <li id = "tonique">Milk</li>
-      <li id = "mediante">Milk</li>
-      <li id = "dominante">Milk</li>
-      <li id = "echelle">Milk</li>
+      <li id = "id">doB</li>
+      <li id = "tonique">doB</li>
+      <li id = "mediante">miB</li>
+      <li id = "dominante">solB</li>
+      <li id = "sensible">siB</li>
     </ul>
   </li>
-  <li id = "mineur">
+  <li id = "majeur">Majeur
     <ul>
-      <li id = "id">nom2</li>
+      <li id = "id">solB</li>
+      <li id = "tonique">solB</li>
+      <li id = "mediante">siB</li>
+      <li id = "dominante">reB</li>
+      <li id = "sensible">fa</li>
+    </ul>
+  </li>
+  <li id = "majeur">Majeur
+    <ul>
+      <li id = "id">reB</li>
+      <li id = "tonique">reB</li>
+      <li id = "mediante">fa</li>
+      <li id = "dominante">laB</li>
+      <li id = "sensible">do</li>
+    </ul>
+  </li>
+  <li id = "majeur">Majeur
+    <ul>
+      <li id = "id">laB</li>
+      <li id = "tonique">laB</li>
+      <li id = "mediante">do</li>
+      <li id = "dominante">miB</li>
+      <li id = "sensible">sol</li>
+    </ul>
+  </li>
+  <li id = "majeur">Majeur
+    <ul>
+      <li id = "id">miB</li>
+      <li id = "tonique">miB</li>
+      <li id = "mediante">sol</li>
+      <li id = "dominante">siB</li>
+      <li id = "sensible">ré</li>
+    </ul>
+  </li>
+  <li id = "mineur">Min
+    <ul>
+      <li id = "id">laB</li>
       <li id = "naturel">
         <ul>
-          <li id = "tonique">Milk</li>
-          <li id = "mediante">Milk</li>
-          <li id = "dominante">Milk</li>
-          <li id = "echelle">Milk</li>
+          <li id = "tonique">laB</li>
+          <li id = "mediante">doB</li>
+          <li id = "dominante">miB</li>
+          <li id = "echelle">solB</li>
         </ul>
       </li>
-      <li id = "harmonique">
+      <li id = "naturel">
         <ul>
-          <li id = "tonique">Milk</li>
-          <li id = "mediante">Milk</li>
-          <li id = "dominante">Milk</li>
-          <li id = "echelle">Milk</li>
+          <li id = "tonique">laB</li>
+          <li id = "mediante">doB</li>
+          <li id = "dominante">miB</li>
+          <li id = "echelle">solF</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li id = "mineur">Min
+    <ul>
+      <li id = "id">miB</li>
+      <li id = "naturel">
+        <ul>
+          <li id = "tonique">miB</li>
+          <li id = "mediante">solB</li>
+          <li id = "dominante">siB</li>
+          <li id = "echelle">reB</li>
+        </ul>
+      </li>
+      <li id = "naturel">
+        <ul>
+          <li id = "tonique">miB</li>
+          <li id = "mediante">solB</li>
+          <li id = "dominante">siB</li>
+          <li id = "echelle">reF</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li id = "mineur">Min
+    <ul>
+      <li id = "id">siB</li>
+      <li id = "naturel">
+        <ul>
+          <li id = "tonique">siB</li>
+          <li id = "mediante">reB</li>
+          <li id = "dominante">fa</li>
+          <li id = "echelle">laB</li>
+        </ul>
+      </li>
+      <li id = "naturel">
+        <ul>
+          <li id = "tonique">siB</li>
+          <li id = "mediante">reB</li>
+          <li id = "dominante">fa</li>
+          <li id = "echelle">laF</li>
         </ul>
       </li>
     </ul>
@@ -47,6 +125,5 @@
 </ul>
 
 <textarea id="output-textbox" rows="20" cols="50"></textarea>
-<button type="button" name="button" onclick="test()">test()</button>
-<script src="game.js" charset="utf-8"></script>
+<script src="script.js" charset="utf-8"></script>
 </body>
