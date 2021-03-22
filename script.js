@@ -4,8 +4,8 @@ textOut = document.getElementById("output-textbox");
 inData = document.getElementById("data")
 majeurArr = [];
 mineurArr = [];
-
-
+curGame = null;
+answerType = "dom"
 
 
 
@@ -146,16 +146,22 @@ class Game {
       this.score = 0;
     }
     checkAnswer(){
-      var answer = textIn.value
-      console.log(answer)
-      if(this.answer == answer){
-        textOut.value += "Bonne reponse\n";
-        this.score += 1;
-        console.log("yyuea")
+      if(answerType == "test"){
+          var answer = textIn.value
+          console.log(answer)
+          if(this.answer == answer){
+            textOut.value += "Bonne reponse\n";
+            this.score += 1;
+            console.log("yyuea")
+            else{
+            textOut.value += "Mauvaise reponse, la bonne reponse est {}\n".replace("{}",this.answer)
+            console.log("yfds")
+            textIn.value = ""
+            }
+      elif(answerType == "vex"){.....}
+      else{.....}
       }
-      else{
-        textOut.value += "Mauvaise reponse, la bonne reponse est {}\n".replace("{}",this.answer)
-        console.log("yfds")
+      
       }
       textIn.value = ""
       this.getNextQuestion()
