@@ -1,2877 +1,2402 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles.css">
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://unpkg.com/vexflow/releases/vexflow-min.js"></script>
+    <script src="./script.js"></script>
+  </head>
+  <body>
+
+
+<div class="buttons">
+  <div class="action_btn">
+    <button name="gameSelector1" class="gameSelector" onclick="selectGame(1)">Game#1</button>
+    <button name="gameSelector2" class="gameSelector" onclick="selectGame(2)">Game#2</button>
+    <button name="gameSelector3" class="gameSelector" onclick="selectGame(3)">Game#3</button>
+    <button name="gameSelector4" class="gameSelector" onclick="selectGame(4)">Game#4</button>
+  </div>
+</div>
+<p  id="score">Score : 0</p>
+<p  id="timer"></p>
+<p  id="output-textbox-question"></p>
+<p  id="output-textbox-answer"></p>
+<input id="input-textbox" type="text" />
+<button name = "answerSubmit" onclick="game.checkAnswer()">Answer</button>
+
+<div class="jeu-1">
+
+  <div class="question-answer-7b question-tonique question-majeur">
+    <p class="question">Quelle est la tonique de la gamme de Do bémol majeur ?</p>
+    <p class="answer">do&flat;</p>
+  </div>
+
+  <div class="question-answer-7b question-mediante question-majeur">
+    <p class="question">Quelle est la médiante de la gamme de Do bémol majeur ?</p>
+    <p class="answer">mi&flat;</p>
+  </div>
+
+  <div class="question-answer-7b question-dominante question-majeur">
+    <p class="question">Quelle est la dominante de la gamme de Do bémol majeur ?</p>
+    <p class="answer">sol&flat;</p>
+  </div>
+
+  <div class="question-answer-7b question-sensible question-majeur">
+    <p class="question">Quelle est la sensible de la gamme de Do bémol majeur ?</p>
+    <p class="answer">si&flat;</p>
+  </div>
+
+  <div class="question-answer-7b question-tonique question-mineur">
+    <p class="question">Quelle est la tonique de la gamme de La bémol mineur ?</p>
+    <p class="answer">la&flat;</p>
+  </div>
+
+  <div class="question-answer-7b question-mediante question-mineur">
+    <p class="question">Quelle est la médiante de la gamme de La bémol mineur ?</p>
+    <p class="answer">do&flat;</p>
+  </div>
+
+  <div class="question-answer-7b question-dominante question-mineur">
+    <p class="question">Quelle est la dominante de la gamme de La bémol mineur ?</p>
+    <p class="answer">mi&flat;</p>
+  </div>
+
+  <div class="question-answer-7b question-sensible question-mineur">
+    <p class="question">Quelle est la sensible de la gamme de La bémol mineur ?</p>
+    <p class="answer">sol&flat;</p>
+  </div>
+
+
+
+
+
+
+  <div class="question-answer-6b question-tonique question-majeur">
+    <p class="question">Quelle est la tonique de la gamme de Sol bémol majeur ?</p>
+    <p class="answer">sol&flat;</p>
+  </div>
+
+  <div class="question-answer-6b question-mediante question-majeur">
+    <p class="question">Quelle est la médiante de la gamme de Sol bémol majeur ?</p>
+    <p class="answer">si&flat;</p>
+  </div>
+
+  <div class="question-answer-6b question-dominante question-majeur">
+    <p class="question">Quelle est la dominante de la gamme de Sol bémol majeur ?</p>
+    <p class="answer">ré&flat;</p>
+  </div>
+
+  <div class="question-answer-6b question-sensible question-majeur">
+    <p class="question">Quelle est la sensible de la gamme de Sol  bémol majeur ?</p>
+    <p class="answer">fa</p>
+  </div>
+
+  <div class="question-answer-6b question-tonique question-mineur">
+    <p class="question">Quelle est la tonique de la gamme de Mi bémol mineur ?</p>
+    <p class="answer">mi&flat;</p>
+  </div>
+
+  <div class="question-answer-6b question-mediante question-mineur">
+    <p class="question">Quelle est la médiante de la gamme de Mi bémol mineur ?</p>
+    <p class="answer">sol&flat;</p>
+  </div>
 
-let game = null;
-let state = "text";
-let process_jeu_1 = null
-let process_jeu_2 = null
-let process_jeu_3 = null
-let process_jeu_4 = null
-let textIn  = null
-let textOut = null
-let score = null
-let countdown = 0
-const answerDisplayTime = 4;
-noteTranslationDict = {
-    "B":"♭",
-    "D":"♯"
-  }
-isTimerLaunched = false
-
-function launchTimer(){
-  setInterval(updateTimer.bind(), 1000);
-  return true
-}
-function updateTimer() {
-    if (this.timeLeft <= 0) {
-      game.gameOver();
-    }
-    else{
-    countdown = countdown - 1;
-    if(countdown != 0){
-      timer = countdown - 1;
-      if(countdown == 0){
-        if(state == "text"){
-          textAnswer.innerText = ""
-        }
-        else if(state == "piano"){
-          //TODO
-        }
-      }
-    }
-    clock.innerText = "Time : " + countdown;
-    }
-  }
-
-function arrayCompare(_arr1, _arr2) {
-    if (
-      !Array.isArray(_arr1)
-      || !Array.isArray(_arr2)
-      || _arr1.length !== _arr2.length
-      ) {
-        return false;
-      }
-
-    // .concat() to not mutate arguments
-    const arr1 = _arr1.concat().sort();
-    const arr2 = _arr2.concat().sort();
-
-    for (let i = 0; i < arr1.length; i++) {
-        if (arr1[i] !== arr2[i]) {
-            return false;
-         }
-    }
-    return true
-}
-
-
-
-function changeState(inState){
-  state = inState
-}
-function selectGame(gameId){
-  if(!isTimerLaunched)
-    isTimerLaunched = launchTimer()
-  switch(gameId){
-    case 1:
-      game = new Game1(process_jeu_1);
-      break;
-    case 2:
-      game = new Game2(process_jeu_2);
-      break;
-    case 3:
-      game = new Game3(process_jeu_3);
-      break;
-    case 4:
-      game = new Game4(process_jeu_4);
-      break;
-  }
-  game.start()
-}
-
-class Game {
-    constructor(data) {  // data est le jeu de données (ici la variable process_jeu_1)
-      this.score = 0;
-      this.currentQuestion = null;
-      this.currentAnswer = null;
-      this.gameLength = 100;
-      this.timer = null;
-      this.data = data;
-      this.answerTimer = 0;
-    }
-
-    getNextQuestion() {
-      const random = Math.floor(Math.random() * this.data.length);
-      this.currentQuestion = this.data[random].question;
-      this.currentAnswer = this.data[random].validator;
-      this.data.splice(random, 1);
-
-      if(state == "text"){
-        textQuestion.innerText = this.currentQuestion + "\n";
-      }
-      else if(state == "piano"){
-        //TODO
-      }
-    }
-
-    start() {
-      game.getNextQuestion();
-      this.setTimer()
-
-    }
-    setTimer(){
-      countdown = this.gameLength
-    }
-    answerTextFormatted(){
-      var answer = this.currentAnswer
-      if(typeof(answer) == "string"){
-        for (var key in noteTranslationDict){
-          answer = answer.replace(key,noteTranslationDict[key]);
-
-        }
-        return answer;
-      }
-      else {
-        var str = ""
-        for (var value in answer){
-          var temp = answer[value]
-          for (var key in noteTranslationDict){
-            temp = temp.replace(key,noteTranslationDict[key]);
-          }
-          str += temp + ",";
-        }
-        return str.slice(0,-1);
-      }
-
-    }
-    updateTimer() {
-      if (this.timeLeft <= 0) {
-        this.gameOver();
-      }
-      else{
-      this.timeLeft = this.timeLeft - 1;
-      if(this.answerTimer != 0){
-        this.answerTimer = this.answerTimer - 1;
-        if(this.answerTimer == 0){
-          if(state == "text"){
-            textAnswer.innerText = ""
-          }
-          else if(state == "piano"){
-            //TODO
-          }
-        }
-      }
-      clock.innerText = "Time : " + this.timeLeft;
-      }
-    }
-
-    gameOver() {
-      console.log("perdu");
-
-      clearInterval(this.timer);
-      score.innerText = "Game Over!, votre score est : " + this.score;
-      clock.innerText = ""
-      this.timer = null
-      if(state == "text"){
-        textAnswer.innerText = ""
-        textQuestion.innerText = ""
-      }
-      else if(state == "piano"){
-        //TODO
-      }
-      game = null
-    }
-    validateAnswer(isValid){
-      if(isValid){
-        textAnswer.innerText = "Bonne réponse \n"
-        this.increaseScore()
-      }
-      else
-        textAnswer.innerText = "Mauvais reponse, la bonne reponse est :" + this.answerTextFormatted() + "\n";
-    }
-    increaseScore(){
-      this.score += 1
-      score.innerText = "Score :" + this.score
-    }
-  }
-
-
-class Game1 extends Game {
-  constructor(data) {
-    super(data);
-  }
-
-  checkAnswer(key = null) { //key c'est un parametre propre au piano(tu mettrais l'input je pense toi)
-                                  //correct c'est currentAnswer
-    if (state == "text") {
-      var answerIn = textIn.value
-      this.validateAnswer(answerIn == this.currentAnswer)
-    }
-    else if(state == "piano"){
-      //TODO
-    }
-    this.answerTimer = answerDisplayTime;
-    this.getNextQuestion();
-   } //fin fonction
-} // fin classe
-class Game2 extends Game {
-  constructor(data) {
-    super(data);
-  }
-
-  checkAnswer(key = null) { //key c'est un parametre propre au piano(tu mettrais l'input je pense toi)
-                                  //correct c'est currentAnswer
-    if (state == "text") {
-      var answerIn = textIn.value
-      this.validateAnswer(answerIn == this.currentAnswer)
-    }
-    else if(state == "piano"){
-      //TODO
-    }
-    this.answerTimer = answerDisplayTime;
-    this.getNextQuestion();
-   } //fin fonction
-} // fin classe
-
-class Game3 extends Game {
-  constructor(data) {
-    super(data);
-  }
-
-  checkAnswer(key = null) { //key c'est un parametre propre au piano(tu mettrais l'input je pense toi)
-                                  //correct c'est currentAnswer
-    if (state == "text") {
-       var answerIn = textIn.value.split(",")
-      if(typeof(this.currentAnswer) == "string")
-        var answerCheck = answerIn == this.currentAnswer;
-      else{
-        var answerCheck = arrayCompare(answerIn,this.currentAnswer)
-      }
-      this.validateAnswer(answerCheck)
-    }
-    else if(state == "piano"){
-      //TODO
-    }
-    this.answerTimer = answerDisplayTime;
-    this.getNextQuestion();
-   } //fin fonction
-} // fin classe
-class Game4 extends Game {
-  constructor(data) {
-    super(data);
-  }
-
-  checkAnswer(key = null) { //key c'est un parametre propre au piano(tu mettrais l'input je pense toi)
-                                  //correct c'est currentAnswer
-    if (state == "text") {
-      var answerIn = textIn.value.split(",")
-
-      var answerCheck = arrayCompare(answerIn,this.currentAnswer);
-      this.validateAnswer(answerCheck)
-    }
-    else if(state == "piano"){
-      //TODO
-    }
-    this.answerTimer = answerDisplayTime;
-    this.getNextQuestion();
-   } //fin fonction
-} // fin classe
-
-
-function getEchelle(liste) {
-  let array = [];
-  for (let index = 0; index < 6; index++) {
-    array.push(liste.getElementsByTagName("li")[index].childNodes[0].data);
-  }
-  return array;
-}
-$(document).ready(function () {
-score = document.getElementById("score");
-clock = document.getElementById("timer")
-textIn = document.getElementById("input-textbox");
-textQuestion = document.getElementById("output-textbox-question");
-textAnswer = document.getElementById("output-textbox-answer");
-process_jeu_1 = [
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-7b.question-tonique.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[0]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-7b.question-mediante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[0]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-7b.question-dominante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[0]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-7b.question-sensible.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[0]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-7b.question-tonique.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[15]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-7b.question-mediante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[15]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-7b.question-dominante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[15]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-7b.question-sensible.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[15]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-6b.question-tonique.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[1]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-6b.question-mediante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[1]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-6b.question-dominante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[1]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-6b.question-sensible.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[1]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-6b.question-tonique.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[16]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-6b.question-mediante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[16]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-6b.question-dominante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[16]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-6b.question-sensible.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[16]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-5b.question-tonique.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[2]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-5b.question-mediante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[2]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-5b.question-dominante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[2]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-5b.question-sensible.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[2]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-5b.question-tonique.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[17]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-5b.question-mediante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[17]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-5b.question-dominante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[17]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-5b.question-sensible.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[17]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-4b.question-tonique.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[3]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-4b.question-mediante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[3]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-4b.question-dominante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[3]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-4b.question-sensible.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[3]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-4b.question-tonique.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[18]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-4b.question-mediante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[18]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-4b.question-dominante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[18]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-4b.question-sensible.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[18]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-3b.question-tonique.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[4]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-3b.question-mediante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[4]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-3b.question-dominante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[4]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-3b.question-sensible.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[4]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-3b.question-tonique.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[19]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-3b.question-mediante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[19]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-3b.question-dominante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[19]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-3b.question-sensible.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[19]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-2b.question-tonique.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[5]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-2b.question-mediante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[5]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-2b.question-dominante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[5]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-2b.question-sensible.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[5]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-2b.question-tonique.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[20]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-2b.question-mediante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[20]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-2b.question-dominante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[20]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-2b.question-sensible.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[20]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-1b.question-tonique.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[6]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-1b.question-mediante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[6]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-1b.question-dominante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[6]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-1b.question-sensible.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[6]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-1b.question-tonique.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[21]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-1b.question-mediante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[21]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-1b.question-dominante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[21]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-1b.question-sensible.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[21]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-0.question-tonique.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[7]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-0.question-mediante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[7]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-0.question-dominante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[7]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-0.question-sensible.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[7]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-0.question-tonique.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[22]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-0.question-mediante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[22]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-0.question-dominante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[22]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-0.question-sensible.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[22]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-1d.question-tonique.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[8]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-1d.question-mediante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[8]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-1d.question-dominante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[8]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-1d.question-sensible.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[8]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-1d.question-tonique.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[23]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-1d.question-mediante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[23]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-1d.question-dominante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[23]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-1d.question-sensible.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[23]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-2d.question-tonique.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[9]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-2d.question-mediante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[9]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-2d.question-dominante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[9]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-2d.question-sensible.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[9]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-2d.question-tonique.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[24]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-2d.question-mediante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[24]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-2d.question-dominante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[24]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-2d.question-sensible.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[24]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-3d.question-tonique.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[10]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-3d.question-mediante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[10]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-3d.question-dominante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[10]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-3d.question-sensible.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[10]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-3d.question-tonique.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[25]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-3d.question-mediante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[25]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-3d.question-dominante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[25]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-3d.question-sensible.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[25]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-4d.question-tonique.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[11]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-4d.question-mediante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[11]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-4d.question-dominante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[11]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-4d.question-sensible.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[11]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-4d.question-tonique.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[26]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-4d.question-mediante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[26]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-4d.question-dominante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[26]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-4d.question-sensible.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[26]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-5d.question-tonique.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[12]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-5d.question-mediante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[12]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-5d.question-dominante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[12]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-5d.question-sensible.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[12]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-5d.question-tonique.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[27]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-5d.question-mediante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[27]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-5d.question-dominante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[27]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-5d.question-sensible.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[27]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-6d.question-tonique.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[13]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-6d.question-mediante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[13]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-6d.question-dominante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[13]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-6d.question-sensible.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[13]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-6d.question-tonique.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[28]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-6d.question-mediante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[28]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-6d.question-dominante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[28]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-6d.question-sensible.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[28]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-7d.question-tonique.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[14]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-7d.question-mediante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[14]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-7d.question-dominante.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[14]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-7d.question-sensible.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[14]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-7d.question-tonique.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[29]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-7d.question-mediante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[29]
-         .getElementsByTagName("tr")[2]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-7d.question-dominante.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[29]
-         .getElementsByTagName("tr")[3]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       question: document.querySelector(
-         ".jeu-1 .question-answer-7d.question-sensible.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[29]
-         .getElementsByTagName("tr")[4]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-   ];
-process_jeu_2 = [
-     {
-       // 7b
-       question: document.querySelector(
-         ".jeu-2 .question-answer-7b.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[1].childNodes[0].data,
-     },
-     {
-       // 7b
-       question: document.querySelector(
-         ".jeu-2 .question-answer-7b.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[1].childNodes[0].data,
-     },
-
-     {
-       // 6b
-       question: document.querySelector(
-         ".jeu-2 .question-answer-6b.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[2].childNodes[0].data,
-     },
-     {
-       // 6b
-       question: document.querySelector(
-         ".jeu-2 .question-answer-6b.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[2].childNodes[0].data,
-     },
-
-     {
-       // 5b
-       question: document.querySelector(
-         ".jeu-2 .question-answer-5b.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[3].childNodes[0].data,
-     },
-     {
-       // 5b
-       question: document.querySelector(
-         ".jeu-2 .question-answer-5b.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[3].childNodes[0].data,
-     },
-
-     {
-       // 4b
-       question: document.querySelector(
-         ".jeu-2 .question-answer-4b.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[4].childNodes[0].data,
-     },
-     {
-       // 4b
-       question: document.querySelector(
-         ".jeu-2 .question-answer-4b.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[4].childNodes[0].data,
-     },
-
-     {
-       // 3b
-       question: document.querySelector(
-         ".jeu-2 .question-answer-3b.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[5].childNodes[0].data,
-     },
-     {
-       // 3b
-       question: document.querySelector(
-         ".jeu-2 .question-answer-3b.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[5].childNodes[0].data,
-     },
-
-     {
-       // 2b
-       question: document.querySelector(
-         ".jeu-2 .question-answer-2b.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[6].childNodes[0].data,
-     },
-     {
-       // 2b
-       question: document.querySelector(
-         ".jeu-2 .question-answer-2b.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[6].childNodes[0].data,
-     },
-
-     {
-       // 1b
-       question: document.querySelector(
-         ".jeu-2 .question-answer-1b.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[7].childNodes[0].data,
-     },
-     {
-       // 1b
-       question: document.querySelector(
-         ".jeu-2 .question-answer-1b.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[7].childNodes[0].data,
-     },
-
-     {
-       // 0
-       question: document.querySelector(
-         ".jeu-2 .question-answer-0.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[8].childNodes[0].data,
-     },
-     {
-       // 0
-       question: document.querySelector(
-         ".jeu-2 .question-answer-0.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[8].childNodes[0].data,
-     },
-
-     {
-       // 1#
-       question: document.querySelector(
-         ".jeu-2 .question-answer-1d.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[9].childNodes[0].data,
-     },
-     {
-       // 1#
-       question: document.querySelector(
-         ".jeu-2 .question-answer-1d.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[9].childNodes[0].data,
-     },
-
-     {
-       // 2#
-       question: document.querySelector(
-         ".jeu-2 .question-answer-2d.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[10].childNodes[0].data,
-     },
-     {
-       // 2#
-       question: document.querySelector(
-         ".jeu-2 .question-answer-2d.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[10].childNodes[0].data,
-     },
-
-     {
-       // 3#
-       question: document.querySelector(
-         ".jeu-2 .question-answer-3d.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[11].childNodes[0].data,
-     },
-     {
-       // 3#
-       question: document.querySelector(
-         ".jeu-2 .question-answer-3d.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[11].childNodes[0].data,
-     },
-
-     {
-       // 4#
-       question: document.querySelector(
-         ".jeu-2 .question-answer-4d.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[12].childNodes[0].data,
-     },
-     {
-       // 4#
-       question: document.querySelector(
-         ".jeu-2 .question-answer-4d.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[12].childNodes[0].data,
-     },
-
-     {
-       // 5#
-       question: document.querySelector(
-         ".jeu-2 .question-answer-5d.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[13].childNodes[0].data,
-     },
-     {
-       // 5#
-       question: document.querySelector(
-         ".jeu-2 .question-answer-5d.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[13].childNodes[0].data,
-     },
-
-     {
-       // 6#
-       question: document.querySelector(
-         ".jeu-2 .question-answer-6d.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[14].childNodes[0].data,
-     },
-     {
-       // 6#
-       question: document.querySelector(
-         ".jeu-2 .question-answer-6d.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[14].childNodes[0].data,
-     },
-
-     {
-       // 7#
-       question: document.querySelector(
-         ".jeu-2 .question-answer-7d.question-majeur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[15].childNodes[0].data,
-     },
-     {
-       // 7#
-       question: document.querySelector(
-         ".jeu-2 .question-answer-7d.question-mineur .question"
-       ).innerHTML,
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("th")[15].childNodes[0].data,
-     },
-   ];
-process_jeu_3 = [
-     {
-       // 7b
-       question: document.querySelector(".jeu-3 .question-answer-7b .question")
-         .innerHTML,
-       armature: document.querySelector(".column-7b > svg"),
-       validator: [
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[0]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[15]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-       ],
-     },
-     {
-       // 7b
-       question: document.querySelector(
-         ".jeu-3 .question-answer-7b.question-majeur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-7b > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[0]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       // 7b
-       question: document.querySelector(
-         ".jeu-3 .question-answer-7b.question-mineur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-7b > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[15]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       // 6b
-       question: document.querySelector(".jeu-3 .question-answer-6b .question")
-         .innerHTML,
-       armature: document.querySelector(".column-6b > svg"),
-       validator: [
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[1]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[16]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-       ],
-     },
-     {
-       // 6b
-       question: document.querySelector(
-         ".jeu-3 .question-answer-6b.question-majeur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-6b > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[1]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       // 6b
-       question: document.querySelector(
-         ".jeu-3 .question-answer-6b.question-mineur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-6b > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[16]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       // 5b
-       question: document.querySelector(".jeu-3 .question-answer-5b .question")
-         .innerHTML,
-       armature: document.querySelector(".column-5b > svg"),
-       validator: [
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[2]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[17]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-       ],
-     },
-     {
-       // 5b
-       question: document.querySelector(
-         ".jeu-3 .question-answer-5b.question-majeur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-5b > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[2]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       // 5b
-       question: document.querySelector(
-         ".jeu-3 .question-answer-5b.question-mineur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-5b > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[17]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       // 4b
-       question: document.querySelector(".jeu-3 .question-answer-4b .question")
-         .innerHTML,
-       armature: document.querySelector(".column-4b > svg"),
-       validator: [
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[3]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[18]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-       ],
-     },
-     {
-       // 4b
-       question: document.querySelector(
-         ".jeu-3 .question-answer-4b.question-majeur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-4b > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[3]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       // 4b
-       question: document.querySelector(
-         ".jeu-3 .question-answer-4b.question-mineur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-4b > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[18]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       // 3b
-       question: document.querySelector(".jeu-3 .question-answer-3b .question")
-         .innerHTML,
-       armature: document.querySelector(".column-3b > svg"),
-       validator: [
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[4]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[19]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-       ],
-     },
-     {
-       // 3b
-       question: document.querySelector(
-         ".jeu-3 .question-answer-3b.question-majeur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-3b > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[4]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       // 3b
-       question: document.querySelector(
-         ".jeu-3 .question-answer-3b.question-mineur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-3b > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[19]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       // 2b
-       question: document.querySelector(".jeu-3 .question-answer-2b .question")
-         .innerHTML,
-       armature: document.querySelector(".column-2b > svg"),
-       validator: [
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[5]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[20]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-       ],
-     },
-     {
-       // 2b
-       question: document.querySelector(
-         ".jeu-3 .question-answer-2b.question-majeur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-2b > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[5]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       // 2b
-       question: document.querySelector(
-         ".jeu-3 .question-answer-2b.question-mineur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-2b > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[20]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       // 1b
-       question: document.querySelector(".jeu-3 .question-answer-1b .question")
-         .innerHTML,
-       armature: document.querySelector(".column-1b > svg"),
-       validator: [
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[6]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[21]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-       ],
-     },
-     {
-       // 1b
-       question: document.querySelector(
-         ".jeu-3 .question-answer-1b.question-majeur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-1b > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[6]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       // 1b
-       question: document.querySelector(
-         ".jeu-3 .question-answer-1b.question-mineur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-1b > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[21]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       // 0
-       question: document.querySelector(".jeu-3 .question-answer-0 .question")
-         .innerHTML,
-       armature: document.querySelector(".column-0 > svg"),
-       validator: [
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[7]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[22]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-       ],
-     },
-     {
-       // 0
-       question: document.querySelector(
-         ".jeu-3 .question-answer-0.question-majeur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-1b > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[7]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       // 0
-       question: document.querySelector(
-         ".jeu-3 .question-answer-0.question-mineur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-1b > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[22]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       // 1#
-       question: document.querySelector(".jeu-3 .question-answer-1d .question")
-         .innerHTML,
-       armature: document.querySelector(".column-1d > svg"),
-       validator: [
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[8]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-         ,
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[23]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-       ],
-     },
-     {
-       // 1#
-       question: document.querySelector(
-         ".jeu-3 .question-answer-1d.question-majeur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-1d > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[8]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       // 1#
-       question: document.querySelector(
-         ".jeu-3 .question-answer-1d.question-mineur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-1d > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[23]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       // 2#
-       question: document.querySelector(".jeu-3 .question-answer-2d .question")
-         .innerHTML,
-       armature: document.querySelector(".column-2d > svg"),
-       validator: [
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[9]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[24]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-       ],
-     },
-     {
-       // 2#
-       question: document.querySelector(
-         ".jeu-3 .question-answer-2d.question-majeur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-2d > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[9]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       // 2#
-       question: document.querySelector(
-         ".jeu-3 .question-answer-2d.question-mineur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-2d > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[24]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       // 3#
-       question: document.querySelector(".jeu-3 .question-answer-3d .question")
-         .innerHTML,
-       armature: document.querySelector(".column-3d > svg"),
-       validator: [
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[10]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[25]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-       ],
-     },
-     {
-       // 3#
-       question: document.querySelector(
-         ".jeu-3 .question-answer-3d.question-majeur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-3d > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[10]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       // 3#
-       question: document.querySelector(
-         ".jeu-3 .question-answer-3d.question-mineur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-3d > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[25]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       // 4#
-       question: document.querySelector(".jeu-3 .question-answer-4d .question")
-         .innerHTML,
-       armature: document.querySelector(".column-4d > svg"),
-       validator: [
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[11]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[26]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-       ],
-     },
-     {
-       // 4#
-       question: document.querySelector(
-         ".jeu-3 .question-answer-4d.question-majeur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-4d > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[11]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       // 4#
-       question: document.querySelector(
-         ".jeu-3 .question-answer-4d.question-mineur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-4d > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[26]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       // 5#
-       question: document.querySelector(".jeu-3 .question-answer-5d .question")
-         .innerHTML,
-       armature: document.querySelector(".column-5d > svg"),
-       validator: [
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[12]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[27]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-       ],
-     },
-     {
-       // 5#
-       question: document.querySelector(
-         ".jeu-3 .question-answer-5d.question-majeur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-5d > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[12]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       // 5#
-       question: document.querySelector(
-         ".jeu-3 .question-answer-5d.question-mineur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-5d > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[27]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       // 6#
-       question: document.querySelector(".jeu-3 .question-answer-6d .question")
-         .innerHTML,
-       armature: document.querySelector(".column-6d > svg"),
-       validator: [
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[13]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[28]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-       ],
-     },
-     {
-       // 6#
-       question: document.querySelector(
-         ".jeu-3 .question-answer-6d.question-majeur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-6d > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[13]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       // 6#
-       question: document.querySelector(
-         ".jeu-3 .question-answer-6d.question-mineur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-6d > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[28]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-
-     {
-       // 7#
-       question: document.querySelector(".jeu-3 .question-answer-7d .question")
-         .innerHTML,
-       armature: document.querySelector(".column-7d > svg"),
-       validator: [
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[14]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-         document
-           .querySelector("#connaissances")
-           .getElementsByTagName("table")[29]
-           .getElementsByTagName("tr")[1]
-           .getElementsByTagName("td")[0].childNodes[0].data,
-       ],
-     },
-     {
-       // 7#
-       question: document.querySelector(
-         ".jeu-3 .question-answer-7d.question-majeur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-7d > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[14]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-     {
-       // 7#
-       question: document.querySelector(
-         ".jeu-3 .question-answer-7d.question-mineur .question"
-       ).innerHTML,
-       armature: document.querySelector(".column-7d > svg"),
-       validator: document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[29]
-         .getElementsByTagName("tr")[1]
-         .getElementsByTagName("td")[0].childNodes[0].data,
-     },
-   ];
-process_jeu_4 = [
-   {
-     // 7b
-     question: document.querySelector(
-       ".jeu-4 .question-answer-7b.question-majeur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[0]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-   {
-     // 7b
-     question: document.querySelector(
-       ".jeu-4 .question-answer-7b.question-mineur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[15]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-
-   {
-     // 6b
-     question: document.querySelector(
-       ".jeu-4 .question-answer-6b.question-majeur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[1]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-   {
-     // 6b
-     question: document.querySelector(
-       ".jeu-4 .question-answer-6b.question-mineur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[16]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-
-   {
-     // 5b
-     question: document.querySelector(
-       ".jeu-4 .question-answer-5b.question-majeur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[2]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-   {
-     // 5b
-     question: document.querySelector(
-       ".jeu-4 .question-answer-5b.question-mineur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[17]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-
-   {
-     // 4b
-     question: document.querySelector(
-       ".jeu-4 .question-answer-4b.question-majeur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[3]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-   {
-     // 4b
-     question: document.querySelector(
-       ".jeu-4 .question-answer-4b.question-mineur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[18]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-
-   {
-     // 3b
-     question: document.querySelector(
-       ".jeu-4 .question-answer-3b.question-majeur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[4]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-   {
-     // 3b
-     question: document.querySelector(
-       ".jeu-4 .question-answer-3b.question-mineur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[19]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-
-   {
-     // 2b
-     question: document.querySelector(
-       ".jeu-4 .question-answer-2b.question-majeur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[5]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-   {
-     // 2b
-     question: document.querySelector(
-       ".jeu-4 .question-answer-2b.question-mineur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[20]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-
-   {
-     // 1b
-     question: document.querySelector(
-       ".jeu-4 .question-answer-1b.question-majeur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[6]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-   {
-     // 1b
-     question: document.querySelector(
-       ".jeu-4 .question-answer-1b.question-mineur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[21]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-
-   {
-     // 0
-     question: document.querySelector(
-       ".jeu-4 .question-answer-0.question-majeur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[7]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-   {
-     // 0
-     question: document.querySelector(
-       ".jeu-4 .question-answer-0.question-mineur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[22]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-
-   {
-     // 1#
-     question: document.querySelector(
-       ".jeu-4 .question-answer-1d.question-majeur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[8]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-   {
-     // 1#
-     question: document.querySelector(
-       ".jeu-4 .question-answer-1d.question-mineur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[23]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-
-   {
-     // 2#
-     question: document.querySelector(
-       ".jeu-4 .question-answer-2d.question-majeur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[9]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-   {
-     // 2#
-     question: document.querySelector(
-       ".jeu-4 .question-answer-2d.question-mineur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[24]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-
-   {
-     // 3#
-     question: document.querySelector(
-       ".jeu-4 .question-answer-3d.question-majeur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[10]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-   {
-     // 3#
-     question: document.querySelector(
-       ".jeu-4 .question-answer-3d.question-mineur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[25]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-
-   {
-     // 4#
-     question: document.querySelector(
-       ".jeu-4 .question-answer-4d.question-majeur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[11]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-   {
-     // 4#
-     question: document.querySelector(
-       ".jeu-4 .question-answer-4d.question-mineur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[26]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-
-   {
-     // 5#
-     question: document.querySelector(
-       ".jeu-4 .question-answer-5d.question-majeur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[12]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-   {
-     // 5#
-     question: document.querySelector(
-       ".jeu-4 .question-answer-5d.question-mineur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[27]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-
-   {
-     // 6#
-     question: document.querySelector(
-       ".jeu-4 .question-answer-6d.question-majeur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[13]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-   {
-     // 6#
-     question: document.querySelector(
-       ".jeu-4 .question-answer-6d.question-mineur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[28]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-
-   {
-     // 7#
-     question: document.querySelector(
-       ".jeu-4 .question-answer-7d.question-majeur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[14]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
-   {
-     // 7#
-     question: document.querySelector(
-       ".jeu-4 .question-answer-7d.question-mineur .question"
-     ).innerHTML,
-     validator: getEchelle(
-       document
-         .querySelector("#connaissances")
-         .getElementsByTagName("table")[29]
-         .getElementsByTagName("tr")[0]
-         .getElementsByTagName("td")[0]
-         .getElementsByTagName("ul")[0]
-     ),
-   },
- ];
-});
+  <div class="question-answer-6b question-dominante question-mineur">
+    <p class="question">Quelle est la dominante de la gamme de Mi bémol mineur ?</p>
+    <p class="answer">si&flat;</p>
+  </div>
+
+  <div class="question-answer-6b question-sensible question-mineur">
+    <p class="question">Quelle est la sensible de la gamme de Mi bémol mineur ?</p>
+    <p class="answer">ré&flat;</p>
+  </div>
+
+
+
+
+  <div class="question-answer-5b question-tonique question-majeur">
+    <p class="question">Quelle est la tonique de la gamme de Ré bémol majeur ?</p>
+    <p class="answer">ré&flat;</p>
+  </div>
+
+  <div class="question-answer-5b question-mediante question-majeur">
+    <p class="question">Quelle est la médiante de la gamme de Ré bémol majeur ?</p>
+    <p class="answer">fa</p>
+  </div>
+
+  <div class="question-answer-5b question-dominante question-majeur">
+    <p class="question">Quelle est la dominante de la gamme de Ré bémol majeur ?</p>
+    <p class="answer">la&flat;</p>
+  </div>
+
+  <div class="question-answer-5b question-sensible question-majeur">
+    <p class="question">Quelle est la sensible de la gamme de Ré  bémol majeur ?</p>
+    <p class="answer">do</p>
+  </div>
+
+  <div class="question-answer-5b question-tonique question-mineur">
+    <p class="question">Quelle est la tonique de la gamme de Si bémol mineur ?</p>
+    <p class="answer">si&flat;</p>
+  </div>
+
+  <div class="question-answer-5b question-mediante question-mineur">
+    <p class="question">Quelle est la médiante de la gamme de Si bémol mineur ?</p>
+    <p class="answer">ré&flat;</p>
+  </div>
+
+  <div class="question-answer-5b question-dominante question-mineur">
+    <p class="question">Quelle est la dominante de la gamme de Si bémol mineur ?</p>
+    <p class="answer">fa</p>
+  </div>
+
+  <div class="question-answer-5b question-sensible question-mineur">
+    <p class="question">Quelle est la sensible de la gamme de Si bémol mineur ?</p>
+    <p class="answer">la&flat;</p>
+  </div>
+
+
+
+
+   <div class="question-answer-4b question-tonique question-majeur">
+    <p class="question">Quelle est la tonique de la gamme de La bémol majeur ?</p>
+    <p class="answer">la&flat;</p>
+  </div>
+
+  <div class="question-answer-4b question-mediante question-majeur">
+    <p class="question">Quelle est la médiante de la gamme de La bémol majeur ?</p>
+    <p class="answer">do</p>
+  </div>
+
+  <div class="question-answer-4b question-dominante question-majeur">
+    <p class="question">Quelle est la dominante de la gamme de La bémol majeur ?</p>
+    <p class="answer">mi&flat;</p>
+  </div>
+
+  <div class="question-answer-4b question-sensible question-majeur">
+    <p class="question">Quelle est la sensible de la gamme de La  bémol majeur ?</p>
+    <p class="answer">sol</p>
+  </div>
+
+  <div class="question-answer-4b question-tonique question-mineur">
+    <p class="question">Quelle est la tonique de la gamme de Fa mineur ?</p>
+    <p class="answer">fa</p>
+  </div>
+
+  <div class="question-answer-4b question-mediante question-mineur">
+    <p class="question">Quelle est la médiante de la gamme de Fa mineur ?</p>
+    <p class="answer">la&flat;</p>
+  </div>
+
+  <div class="question-answer-4b question-dominante question-mineur">
+    <p class="question">Quelle est la dominante de la gamme de Fa mineur ?</p>
+    <p class="answer">do</p>
+  </div>
+
+  <div class="question-answer-4b question-sensible question-mineur">
+    <p class="question">Quelle est la sensible de la gamme de Fa mineur ?</p>
+    <p class="answer">mi&flat;</p>
+  </div>
+
+
+
+
+
+
+  <div class="question-answer-3b question-tonique question-majeur">
+    <p class="question">Quelle est la tonique de la gamme de Mi bémol majeur ?</p>
+    <p class="answer">mi&flat;</p>
+  </div>
+
+  <div class="question-answer-3b question-mediante question-majeur">
+    <p class="question">Quelle est la médiante de la gamme de Mi bémol majeur ?</p>
+    <p class="answer">sol</p>
+  </div>
+
+  <div class="question-answer-3b question-dominante question-majeur">
+    <p class="question">Quelle est la dominante de la gamme de Mi bémol majeur ?</p>
+    <p class="answer">si&flat;</p>
+  </div>
+
+  <div class="question-answer-3b question-sensible question-majeur">
+    <p class="question">Quelle est la sensible de la gamme de Mi bémol majeur ?</p>
+    <p class="answer">ré</p>
+  </div>
+
+  <div class="question-answer-3b question-tonique question-mineur">
+    <p class="question">Quelle est la tonique de la gamme de Do mineur ?</p>
+    <p class="answer">do</p>
+  </div>
+
+  <div class="question-answer-3b question-mediante question-mineur">
+    <p class="question">Quelle est la médiante de la gamme de Do mineur ?</p>
+    <p class="answer">mi&flat;</p>
+  </div>
+
+  <div class="question-answer-3b question-dominante question-mineur">
+    <p class="question">Quelle est la dominante de la gamme de Do mineur ?</p>
+    <p class="answer">sol</p>
+  </div>
+
+  <div class="question-answer-3b question-sensible question-mineur">
+    <p class="question">Quelle est la sous-tonique de la gamme de Do mineur ?</p>
+    <p class="answer">si&flat;</p>
+  </div>
+
+
+
+
+
+  <div class="question-answer-2b question-tonique question-majeur">
+    <p class="question">Quelle est la tonique de la gamme de Si bémol majeur ?</p>
+    <p class="answer">si&flat;</p>
+  </div>
+
+  <div class="question-answer-2b question-mediante question-majeur">
+    <p class="question">Quelle est la médiante de la gamme de Si bémol majeur ?</p>
+    <p class="answer">ré</p>
+  </div>
+
+  <div class="question-answer-2b question-dominante question-majeur">
+    <p class="question">Quelle est la dominante de la gamme de Si bémol majeur ?</p>
+    <p class="answer">fa</p>
+  </div>
+
+  <div class="question-answer-2b question-sensible question-majeur">
+    <p class="question">Quelle est la sensible de la gamme de Si bémol majeur ?</p>
+    <p class="answer">la</p>
+  </div>
+
+  <div class="question-answer-2b question-tonique question-mineur">
+    <p class="question">Quelle est la tonique de la gamme de Sol mineur ?</p>
+    <p class="answer">sol</p>
+  </div>
+
+  <div class="question-answer-2b question-mediante question-mineur">
+    <p class="question">Quelle est la médiante de la gamme de Sol mineur ?</p>
+    <p class="answer">si&flat;</p>
+  </div>
+
+  <div class="question-answer-2b question-dominante question-mineur">
+    <p class="question">Quelle est la dominante de la gamme de Sol mineur ?</p>
+    <p class="answer">ré</p>
+  </div>
+
+  <div class="question-answer-2b question-sensible question-mineur">
+    <p class="question">Quelle est la sensible de la gamme de Sol mineur ?</p>
+    <p class="answer">fa</p>
+  </div>
+
+
+
+
+
+  <div class="question-answer-1b question-tonique question-majeur">
+    <p class="question">Quelle est la tonique de la gamme de Fa majeur ?</p>
+    <p class="answer">fa</p>
+  </div>
+
+  <div class="question-answer-1b question-mediante question-majeur">
+    <p class="question">Quelle est la médiante de la gamme de Fa majeur ?</p>
+    <p class="answer">la</p>
+  </div>
+
+  <div class="question-answer-1b question-dominante question-majeur">
+    <p class="question">Quelle est la dominante de la gamme de Fa majeur ?</p>
+    <p class="answer">do</p>
+  </div>
+
+  <div class="question-answer-1b question-sensible question-majeur">
+    <p class="question">Quelle est la sensible de la gamme de Fa majeur ?</p>
+    <p class="answer">mi</p>
+  </div>
+
+  <div class="question-answer-1b question-tonique question-mineur">
+    <p class="question">Quelle est la tonique de la gamme de Ré mineur ?</p>
+    <p class="answer">ré</p>
+  </div>
+
+  <div class="question-answer-1b question-mediante question-mineur">
+    <p class="question">Quelle est la médiante de la gamme de Ré mineur ?</p>
+    <p class="answer">fa</p>
+  </div>
+
+  <div class="question-answer-1b question-dominante question-mineur">
+    <p class="question">Quelle est la dominante de la gamme de Ré mineur ?</p>
+    <p class="answer">la</p>
+  </div>
+
+  <div class="question-answer-1b question-sensible question-mineur">
+    <p class="question">Quelle est la sensible de la gamme de Ré mineur ?</p>
+    <p class="answer">do</p>
+  </div>
+
+
+
+
+
+  <div class="question-answer-0 question-tonique question-majeur">
+    <p class="question">Quelle est la tonique de la gamme de Do majeur ?</p>
+    <p class="answer">do</p>
+  </div>
+
+  <div class="question-answer-0 question-mediante question-majeur">
+    <p class="question">Quelle est la médiante de la gamme de Do majeur ?</p>
+    <p class="answer">mi</p>
+  </div>
+
+  <div class="question-answer-0 question-dominante question-majeur">
+    <p class="question">Quelle est la dominante de la gamme de Do majeur ?</p>
+    <p class="answer">sol</p>
+  </div>
+
+  <div class="question-answer-0 question-sensible question-majeur">
+    <p class="question">Quelle est la sensible de la gamme de Do majeur ?</p>
+    <p class="answer">si</p>
+  </div>
+
+  <div class="question-answer-0 question-tonique question-mineur">
+    <p class="question">Quelle est la tonique de la gamme de La mineur ?</p>
+    <p class="answer">la</p>
+  </div>
+
+  <div class="question-answer-0 question-mediante question-mineur">
+    <p class="question">Quelle est la médiante de la gamme de La mineur ?</p>
+    <p class="answer">do</p>
+  </div>
+
+  <div class="question-answer-0 question-dominante question-mineur">
+    <p class="question">Quelle est la dominante de la gamme de La mineur ?</p>
+    <p class="answer">mi</p>
+  </div>
+
+  <div class="question-answer-0 question-sensible question-mineur">
+    <p class="question">Quelle est la sensible de la gamme de La mineur ?</p>
+    <p class="answer">sol</p>
+  </div>
+
+
+
+
+
+  <div class="question-answer-1d question-tonique question-majeur">
+    <p class="question">Quelle est la tonique de la gamme de Sol majeur ?</p>
+    <p class="answer">sol</p>
+  </div>
+
+  <div class="question-answer-1d question-mediante question-majeur">
+    <p class="question">Quelle est la médiante de la gamme de Sol majeur ?</p>
+    <p class="answer">si</p>
+  </div>
+
+  <div class="question-answer-1d question-dominante question-majeur">
+    <p class="question">Quelle est la dominante de la gamme de Sol majeur ?</p>
+    <p class="answer">ré</p>
+  </div>
+
+  <div class="question-answer-1d question-sensible question-majeur">
+    <p class="question">Quelle est la sensible de la gamme de Sol majeur ?</p>
+    <p class="answer">fa&sharp;</p>
+  </div>
+
+  <div class="question-answer-1d question-tonique question-mineur">
+    <p class="question">Quelle est la tonique de la gamme de Mi mineur ?</p>
+    <p class="answer">mi</p>
+  </div>
+
+  <div class="question-answer-1d question-mediante question-mineur">
+    <p class="question">Quelle est la médiante de la gamme de Mi mineur ?</p>
+    <p class="answer">sol</p>
+  </div>
+
+  <div class="question-answer-1d question-dominante question-mineur">
+    <p class="question">Quelle est la dominante de la gamme de Mi mineur ?</p>
+    <p class="answer">si</p>
+  </div>
+
+  <div class="question-answer-1d question-sensible question-mineur">
+    <p class="question">Quelle est la sensible de la gamme de Mi mineur ?</p>
+    <p class="answer">ré</p>
+  </div>
+
+
+
+
+
+  <div class="question-answer-2d question-tonique question-majeur">
+    <p class="question">Quelle est la tonique de la gamme de Ré majeur ?</p>
+    <p class="answer">ré</p>
+  </div>
+
+  <div class="question-answer-2d question-mediante question-majeur">
+    <p class="question">Quelle est la médiante de la gamme de Ré majeur ?</p>
+    <p class="answer">fa&sharp;</p>
+  </div>
+
+  <div class="question-answer-2d question-dominante question-majeur">
+    <p class="question">Quelle est la dominante de la gamme de Ré majeur ?</p>
+    <p class="answer">la</p>
+  </div>
+
+  <div class="question-answer-2d question-sensible question-majeur">
+    <p class="question">Quelle est la sensible de la gamme de Ré majeur ?</p>
+    <p class="answer">do&sharp;</p>
+  </div>
+
+  <div class="question-answer-2d question-tonique question-mineur">
+    <p class="question">Quelle est la tonique de la gamme de Si mineur ?</p>
+    <p class="answer">si</p>
+  </div>
+
+  <div class="question-answer-2d question-mediante question-mineur">
+    <p class="question">Quelle est la médiante de la gamme de Si mineur ?</p>
+    <p class="answer">ré</p>
+  </div>
+
+  <div class="question-answer-2d question-dominante question-mineur">
+    <p class="question">Quelle est la dominante de la gamme de Si mineur ?</p>
+    <p class="answer">fa&sharp;</p>
+  </div>
+
+  <div class="question-answer-2d question-sensible question-mineur">
+    <p class="question">Quelle est la sensible de la gamme de Si mineur ?</p>
+    <p class="answer">la</p>
+  </div>
+
+
+
+
+
+
+  <div class="question-answer-3d question-tonique question-majeur">
+    <p class="question">Quelle est la tonique de la gamme de La majeur ?</p>
+    <p class="answer">la</p>
+  </div>
+
+  <div class="question-answer-3d question-mediante question-majeur">
+    <p class="question">Quelle est la médiante de la gamme de La majeur ?</p>
+    <p class="answer">do&sharp;</p>
+  </div>
+
+  <div class="question-answer-3d question-dominante question-majeur">
+    <p class="question">Quelle est la dominante de la gamme de La majeur ?</p>
+    <p class="answer">mi</p>
+  </div>
+
+  <div class="question-answer-3d question-sensible question-majeur">
+    <p class="question">Quelle est la sensible de la gamme de La majeur ?</p>
+    <p class="answer">sol&sharp;</p>
+  </div>
+
+  <div class="question-answer-3d question-tonique question-mineur">
+    <p class="question">Quelle est la tonique de la gamme de Fa dièse mineur ?</p>
+    <p class="answer">fa&sharp;</p>
+  </div>
+
+  <div class="question-answer-3d question-mediante question-mineur">
+    <p class="question">Quelle est la médiante de la gamme de Fa dièse mineur ?</p>
+    <p class="answer">la</p>
+  </div>
+
+  <div class="question-answer-3d question-dominante question-mineur">
+    <p class="question">Quelle est la dominante de la gamme de Fa dièse mineur ?</p>
+    <p class="answer">do&sharp;</p>
+  </div>
+
+  <div class="question-answer-3d question-sensible question-mineur">
+    <p class="question">Quelle est la sensible de la gamme de Fa dièse mineur ?</p>
+    <p class="answer">mi</p>
+  </div>
+
+
+
+
+
+  <div class="question-answer-4d question-tonique question-majeur">
+    <p class="question">Quelle est la tonique de la gamme de Mi majeur ?</p>
+    <p class="answer">mi</p>
+  </div>
+
+  <div class="question-answer-4d question-mediante question-majeur">
+    <p class="question">Quelle est la médiante de la gamme de Mi majeur ?</p>
+    <p class="answer">sol&sharp;</p>
+  </div>
+
+  <div class="question-answer-4d question-dominante question-majeur">
+    <p class="question">Quelle est la dominante de la gamme de Mi majeur ?</p>
+    <p class="answer">si</p>
+  </div>
+
+  <div class="question-answer-4d question-sensible question-majeur">
+    <p class="question">Quelle est la sensible de la gamme de Mi majeur ?</p>
+    <p class="answer">ré&sharp;</p>
+  </div>
+
+  <div class="question-answer-4d question-tonique question-mineur">
+    <p class="question">Quelle est la tonique de la gamme de Do dièse mineur ?</p>
+    <p class="answer">do&sharp;</p>
+  </div>
+
+  <div class="question-answer-4d question-mediante question-mineur">
+    <p class="question">Quelle est la médiante de la gamme de Do dièse mineur ?</p>
+    <p class="answer">mi</p>
+  </div>
+
+  <div class="question-answer-4d question-dominante question-mineur">
+    <p class="question">Quelle est la dominante de la gamme de Do dièse mineur ?</p>
+    <p class="answer">sol&sharp;</p>
+  </div>
+
+  <div class="question-answer-4d question-sensible question-mineur">
+    <p class="question">Quelle est la sensible de la gamme de Do dièse mineur ?</p>
+    <p class="answer">si</p>
+  </div>
+
+
+
+
+  <div class="question-answer-5d question-tonique question-majeur">
+    <p class="question">Quelle est la tonique de la gamme de Si majeur ?</p>
+    <p class="answer">si</p>
+  </div>
+
+  <div class="question-answer-5d question-mediante question-majeur">
+    <p class="question">Quelle est la médiante de la gamme de Si majeur ?</p>
+    <p class="answer">ré&sharp;</p>
+  </div>
+
+  <div class="question-answer-5d question-dominante question-majeur">
+    <p class="question">Quelle est la dominante de la gamme de Si majeur ?</p>
+    <p class="answer">fa&sharp;</p>
+  </div>
+
+  <div class="question-answer-5d question-sensible question-majeur">
+    <p class="question">Quelle est la sensible de la gamme de Si majeur ?</p>
+    <p class="answer">la&sharp;</p>
+  </div>
+
+  <div class="question-answer-5d question-tonique question-mineur">
+    <p class="question">Quelle est la tonique de la gamme de Sol dièse mineur ?</p>
+    <p class="answer">sol&sharp;</p>
+  </div>
+
+  <div class="question-answer-5d question-mediante question-mineur">
+    <p class="question">Quelle est la médiante de la gamme de Sol dièse mineur ?</p>
+    <p class="answer">si</p>
+  </div>
+
+  <div class="question-answer-5d question-dominante question-mineur">
+    <p class="question">Quelle est la dominante de la gamme de Sol dièse mineur ?</p>
+    <p class="answer">ré&sharp;</p>
+  </div>
+
+  <div class="question-answer-5d question-sensible question-mineur">
+    <p class="question">Quelle est la sensible de la gamme de Sol dièse mineur ?</p>
+    <p class="answer">fa&sharp;</p>
+  </div>
+
+
+
+
+
+  <div class="question-answer-6d question-tonique question-majeur">
+    <p class="question">Quelle est la tonique de la gamme de Fa dièse majeur ?</p>
+    <p class="answer">fa&sharp;</p>
+  </div>
+
+  <div class="question-answer-6d question-mediante question-majeur">
+    <p class="question">Quelle est la médiante de la gamme de Fa dièse majeur ?</p>
+    <p class="answer">la&sharp;</p>
+  </div>
+
+  <div class="question-answer-6d question-dominante question-majeur">
+    <p class="question">Quelle est la dominante de la gamme de Fa dièse majeur ?</p>
+    <p class="answer">do&sharp;</p>
+  </div>
+
+  <div class="question-answer-6d question-sensible question-majeur">
+    <p class="question">Quelle est la sensible de la gamme de Fa dièse majeur ?</p>
+    <p class="answer">mi&sharp;</p>
+  </div>
+
+  <div class="question-answer-6d question-tonique question-mineur">
+    <p class="question">Quelle est la tonique de la gamme de Ré dièse mineur ?</p>
+    <p class="answer">ré&sharp;</p>
+  </div>
+
+  <div class="question-answer-6d question-mediante question-mineur">
+    <p class="question">Quelle est la médiante de la gamme de Ré dièse mineur ?</p>
+    <p class="answer">fa&sharp;</p>
+  </div>
+
+  <div class="question-answer-6d question-dominante question-mineur">
+    <p class="question">Quelle est la dominante de la gamme de Ré dièse mineur ?</p>
+    <p class="answer">la&sharp;</p>
+  </div>
+
+  <div class="question-answer-6d question-sensible question-mineur">
+    <p class="question">Quelle est la sensible de la gamme de Ré dièse mineur ?</p>
+    <p class="answer">do&sharp;</p>
+  </div>
+
+
+
+
+  <div class="question-answer-7d question-tonique question-majeur">
+    <p class="question">Quelle est la tonique de la gamme de Do dièse majeur ?</p>
+    <p class="answer">do&sharp;</p>
+  </div>
+
+  <div class="question-answer-7d question-mediante question-majeur">
+    <p class="question">Quelle est la médiante de la gamme de Do dièse majeur ?</p>
+    <p class="answer">mi&sharp;</p>
+  </div>
+
+  <div class="question-answer-7d question-dominante question-majeur">
+    <p class="question">Quelle est la dominante de la gamme de Do dièse majeur ?</p>
+    <p class="answer">sol&sharp;</p>
+  </div>
+
+  <div class="question-answer-7d question-sensible question-majeur">
+    <p class="question">Quelle est la sensible de la gamme de Do dièse majeur ?</p>
+    <p class="answer">si&sharp;</p>
+  </div>
+
+  <div class="question-answer-7d question-tonique question-mineur">
+    <p class="question">Quelle est la tonique de la gamme de La dièse mineur ?</p>
+    <p class="answer">la&sharp;</p>
+  </div>
+
+  <div class="question-answer-7d question-mediante question-mineur">
+    <p class="question">Quelle est la médiante de la gamme de La dièse mineur ?</p>
+    <p class="answer">do&sharp;</p>
+  </div>
+
+  <div class="question-answer-7d question-dominante question-mineur">
+    <p class="question">Quelle est la dominante de la gamme de La dièse mineur ?</p>
+    <p class="answer">mi&sharp;</p>
+  </div>
+
+  <div class="question-answer-7d question-sensible question-mineur">
+    <p class="question">Quelle est la sensible de la gamme de La dièse mineur ?</p>
+    <p class="answer">sol&sharp;</p>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="jeu-2">
+
+  <div class="question-answer-7b question-majeur">
+    <p class="question">A quelle tonalité appartient la gamme de Do bémol majeur ?</p>
+    <p class="answer">7&flat;</p>
+  </div>
+
+  <div class="question-answer-7b question-mineur">
+    <p class="question">A quelle tonalité appartient la gamme de La bémol mineur ?</p>
+    <p class="answer">7&flat;</p>
+  </div>
+
+
+  <div class="question-answer-6b question-majeur">
+    <p class="question">A quelle tonalité appartient la gamme de Sol bémol majeur ?</p>
+    <p class="answer">6&flat;</p>
+  </div>
+
+  <div class="question-answer-6b question-mineur">
+    <p class="question">A quelle tonalité appartient la gamme de Mi bémol mineur ?</p>
+    <p class="answer">6&flat;</p>
+  </div>
+
+
+  <div class="question-answer-5b question-majeur">
+    <p class="question">A quelle tonalité appartient la gamme de Ré bémol majeur ?</p>
+    <p class="answer">5&flat;</p>
+  </div>
+
+  <div class="question-answer-5b question-mineur">
+    <p class="question">A quelle tonalité appartient la gamme de Si bémol mineur ?</p>
+    <p class="answer">5&flat;</p>
+  </div>
+
+  <div class="question-answer-4b question-majeur">
+    <p class="question">A quelle tonalité appartient la gamme de La bémol majeur ?</p>
+    <p class="answer">4&flat;</p>
+  </div>
+
+  <div class="question-answer-4b question-mineur">
+    <p class="question">A quelle tonalité appartient la gamme de Fa mineur ?</p>
+    <p class="answer">4&flat;</p>
+  </div>
+
+
+  <div class="question-answer-3b question-majeur">
+    <p class="question">A quelle tonalité appartient la gamme de Mi bémol majeur ?</p>
+    <p class="answer">3&flat;</p>
+  </div>
+
+  <div class="question-answer-3b question-mineur">
+    <p class="question">A quelle tonalité appartient la gamme de Do mineur ?</p>
+    <p class="answer">3&flat;</p>
+  </div>
+
+
+  <div class="question-answer-2b question-majeur">
+    <p class="question">A quelle tonalité appartient la gamme de Si bémol majeur ?</p>
+    <p class="answer">2&flat;</p>
+  </div>
+
+  <div class="question-answer-2b question-mineur">
+    <p class="question">A quelle tonalité appartient la gamme de Sol mineur ?</p>
+    <p class="answer">2&flat;</p>
+  </div>
+
+
+  <div class="question-answer-1b question-majeur">
+    <p class="question">A quelle tonalité appartient la gamme de Fa majeur ?</p>
+    <p class="answer">1&flat;</p>
+  </div>
+
+  <div class="question-answer-1b question-mineur">
+    <p class="question">A quelle tonalité appartient la gamme de Ré mineur ?</p>
+    <p class="answer">1&flat;</p>
+  </div>
+
+  <div class="question-answer-0 question-majeur">
+    <p class="question">A quelle tonalité appartient la gamme de Do majeur ?</p>
+    <p class="answer">0</p>
+  </div>
+
+  <div class="question-answer-0 question-mineur">
+    <p class="question">A quelle tonalité appartient la gamme de La mineur ?</p>
+    <p class="answer">0</p>
+  </div>
+
+
+  <div class="question-answer-1d question-majeur">
+    <p class="question">A quelle tonalité appartient la gamme de Sol majeur ?</p>
+    <p class="answer">1&sharp;</p>
+  </div>
+
+  <div class="question-answer-1d question-mineur">
+    <p class="question">A quelle tonalité appartient la gamme de Mi mineur ?</p>
+    <p class="answer">1&sharp;</p>
+  </div>
+
+
+  <div class="question-answer-2d question-majeur">
+    <p class="question">A quelle tonalité appartient la gamme de Ré majeur ?</p>
+    <p class="answer">2&sharp;</p>
+  </div>
+
+  <div class="question-answer-2d question-mineur">
+    <p class="question">A quelle tonalité appartient la gamme de Si mineur ?</p>
+    <p class="answer">2&sharp;</p>
+  </div>
+
+
+  <div class="question-answer-3d question-majeur">
+    <p class="question">A quelle tonalité appartient la gamme de La majeur ?</p>
+    <p class="answer">3&sharp;</p>
+  </div>
+
+  <div class="question-answer-3d question-mineur">
+    <p class="question">A quelle tonalité appartient la gamme de Fa dièse mineur ?</p>
+    <p class="answer">3&sharp;</p>
+  </div>
+
+
+  <div class="question-answer-4d question-majeur">
+    <p class="question">A quelle tonalité appartient la gamme de Mi majeur ?</p>
+    <p class="answer">4&sharp;</p>
+  </div>
+
+
+  <div class="question-answer-4d question-mineur">
+    <p class="question">A quelle tonalité appartient la gamme de Do dièse mineur ?</p>
+    <p class="answer">4&sharp;</p>
+  </div>
+
+  <div class="question-answer-5d question-majeur">
+    <p class="question">A quelle tonalité appartient la gamme de Si majeur ?</p>
+    <p class="answer">5&sharp;</p>
+  </div>
+
+  <div class="question-answer-5d question-mineur">
+    <p class="question">A quelle tonalité appartient la gamme de Sol dièse mineur ?</p>
+    <p class="answer">5&sharp;</p>
+  </div>
+
+
+  <div class="question-answer-6d question-majeur">
+    <p class="question">A quelle tonalité appartient la gamme de Fa majeur ?</p>
+    <p class="answer">6&sharp;</p>
+  </div>
+
+  <div class="question-answer-6d question-mineur">
+    <p class="question">A quelle tonalité appartient la gamme de Ré dièse mineur ?</p>
+    <p class="answer">6&sharp;</p>
+  </div>
+
+  <div class="question-answer-7d question-majeur">
+    <p class="question">A quelle tonalité appartient la gamme de Do majeur ?</p>
+    <p class="answer">7&sharp;</p>
+  </div>
+
+  <div class="question-answer-7d question-mineur">
+    <p class="question">A quelle tonalité appartient la gamme de La dièse mineur ?</p>
+    <p class="answer">7&sharp;</p>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="jeu-3">
+
+    <div class="question-answer-7b">
+      <p class="question">Quelles sont les tonalités de l'armature avec 7&flat; ?</p>
+      <p class="answer">do&flat; et la&flat;</p>
+    </div>
+
+    <div class="question-answer-7b question-majeur">
+      <p class="question">Quelles est la tonalité majeure de l'armature avec 7&flat; ?</p>
+      <p class="answer">do&flat;</p>
+    </div>
+
+    <div class="question-answer-7b question-mineur">
+      <p class="question">Quelles est la tonalité mineure de l'armature avec 7&flat; ?</p>
+      <p class="answer">la&flat;</p>
+    </div>
+
+    <div class="question-answer-6b">
+      <p class="question">Quelles sont les tonalités de l'armature avec 6&flat; ?</p>
+      <p class="answer">sol&flat; et mi&flat;</p>
+    </div>
+
+    <div class="question-answer-6b question-majeur">
+      <p class="question">Quelles est la tonalité majeure de l'armature avec 6&flat; ?</p>
+      <p class="answer">sol&flat;</p>
+    </div>
+
+    <div class="question-answer-6b question-mineur">
+      <p class="question">Quelles est la tonalité mineure de l'armature avec 6&flat; ?</p>
+      <p class="answer">mi&flat;</p>
+    </div>
+
+    <div class="question-answer-5b">
+      <p class="question">Quelles sont les tonalités de l'armature avec 5&flat; ?</p>
+      <p class="answer">ré&flat; et si&flat;</p>
+    </div>
+
+    <div class="question-answer-5b question-majeur">
+      <p class="question">Quelles est la tonalité majeure de l'armature avec 5&flat; ?</p>
+      <p class="answer">ré&flat;</p>
+    </div>
+
+    <div class="question-answer-5b question-mineur">
+      <p class="question">Quelles est la tonalité mineure de l'armature avec 5&flat; ?</p>
+      <p class="answer">si&flat;</p>
+    </div>
+
+    <div class="question-answer-4b">
+      <p class="question">Quelles sont les tonalités de l'armature avec 4&flat; ?</p>
+      <p class="answer">la&flat; et fa</p>
+    </div>
+
+    <div class="question-answer-4b question-majeur">
+      <p class="question">Quelles est la tonalité majeure de l'armature avec 4&flat; ?</p>
+      <p class="answer">la&flat;</p>
+    </div>
+
+    <div class="question-answer-4b question-mineur">
+      <p class="question">Quelles est la tonalité mineure de l'armature avec 4&flat; ?</p>
+      <p class="answer">fa</p>
+    </div>
+
+    <div class="question-answer-3b">
+      <p class="question">Quelles sont les tonalités de l'armature avec 3&flat; ?</p>
+      <p class="answer">mi&flat; et do</p>
+    </div>
+
+    <div class="question-answer-3b question-majeur">
+      <p class="question">Quelles est la tonalité majeure de l'armature avec 3&flat; ?</p>
+      <p class="answer">mi&flat;</p>
+    </div>
+
+    <div class="question-answer-3b question-mineur">
+      <p class="question">Quelles est la tonalité mineure de l'armature avec 3&flat; ?</p>
+      <p class="answer">do</p>
+    </div>
+
+    <div class="question-answer-2b">
+      <p class="question">Quelles sont les tonalités de l'armature avec 2&flat; ?</p>
+      <p class="answer">si&flat; et sol</p>
+    </div>
+
+    <div class="question-answer-2b question-majeur">
+      <p class="question">Quelles est la tonalité majeure de l'armature avec 2&flat; ?</p>
+      <p class="answer">si&flat;</p>
+    </div>
+
+    <div class="question-answer-2b question-mineur">
+      <p class="question">Quelles est la tonalité mineure de l'armature avec 2&flat; ?</p>
+      <p class="answer">sol</p>
+    </div>
+
+    <div class="question-answer-1b">
+      <p class="question">Quelles sont les tonalités de l'armature avec 1&flat; ?</p>
+      <p class="answer">fa et ré"</p>
+    </div>
+
+    <div class="question-answer-1b question-majeur">
+      <p class="question">Quelles est la tonalité majeure de l'armature avec 1&flat; ?</p>
+      <p class="answer">fa</p>
+    </div>
+
+    <div class="question-answer-1b question-mineur">
+      <p class="question">Quelles est la tonalité mineure de l'armature avec 1&flat; ?</p>
+      <p class="answer">ré</p>
+    </div>
+
+    <div class="question-answer-0">
+      <p class="question">Quelles sont les tonalités de l'armature vierge ?</p>
+      <p class="answer">do et la</p>
+    </div>
+
+    <div class="question-answer-0 question-majeur">
+      <p class="question">Quelles est la tonalité majeure de l'armature vierge ?</p>
+      <p class="answer">do</p>
+    </div>
+
+    <div class="question-answer-0 question-mineur">
+      <p class="question">Quelles est la tonalité mineure de l'armature vierge ?</p>
+      <p class="answer">la</p>
+    </div>
+
+    <div class="question-answer-1d">
+      <p class="question">Quelles sont les tonalités de l'armature avec 1&sharp; ?</p>
+      <p class="answer">sol et mi</p>
+    </div>
+
+    <div class="question-answer-1d question-majeur">
+      <p class="question">Quelles est la tonalité majeure de l'armature avec 1&sharp; ?</p>
+      <p class="answer">sol</p>
+    </div>
+
+    <div class="question-answer-1d question-mineur">
+      <p class="question">Quelles est la tonalité mineure de l'armature avec 1&sharp; ?</p>
+      <p class="answer">mi</p>
+    </div>
+
+    <div class="question-answer-2d">
+      <p class="question">Quelles sont les tonalités de l'armature avec 2&sharp; ?</p>
+      <p class="answer">ré et si</p>
+    </div>
+
+    <div class="question-answer-2d question-majeur">
+      <p class="question">Quelles est la tonalité majeure de l'armature avec 2&sharp; ?</p>
+      <p class="answer">ré</p>
+    </div>
+
+    <div class="question-answer-2d question-mineur">
+      <p class="question">Quelles est la tonalité mineure de l'armature avec 2&sharp; ?</p>
+      <p class="answer">si</p>
+    </div>
+
+    <div class="question-answer-3d">
+      <p class="question">Quelles sont les tonalités de l'armature avec 3&sharp; ?</p>
+      <p class="answer">la et fa&sharp;</p>
+    </div>
+
+    <div class="question-answer-3d question-majeur">
+      <p class="question">Quelles est la tonalité majeure de l'armature avec 3&sharp; ?</p>
+      <p class="answer">la</p>
+    </div>
+
+    <div class="question-answer-3d question-mineur">
+      <p class="question">Quelles est la tonalité mineure de l'armature avec 3&sharp; ?</p>
+      <p class="answer">fa&sharp;</p>
+    </div>
+
+    <div class="question-answer-4d">
+      <p class="question">Quelles sont les tonalités de l'armature avec 4&sharp; ?</p>
+      <p class="answer">mi et do&sharp;</p>
+    </div>
+
+    <div class="question-answer-4d question-majeur">
+      <p class="question">Quelles est la tonalité majeure de l'armature avec 4&sharp; ?</p>
+      <p class="answer">mi</p>
+    </div>
+
+    <div class="question-answer-4d question-mineur">
+      <p class="question">Quelles est la tonalité mineure de l'armature avec 4&sharp; ?</p>
+      <p class="answer">do&sharp;</p>
+    </div>
+
+    <div class="question-answer-5d">
+      <p class="question">Quelles sont les tonalités de l'armature avec 5&sharp; ?</p>
+      <p class="answer">si et sol&sharp;</p>
+    </div>
+
+    <div class="question-answer-5d question-majeur">
+      <p class="question">Quelles est la tonalité majeure de l'armature avec 5&sharp; ?</p>
+      <p class="answer">si</p>
+    </div>
+
+    <div class="question-answer-5d question-mineur">
+      <p class="question">Quelles est la tonalité mineure de l'armature avec 5&sharp; ?</p>
+      <p class="answer">sol&sharp;</p>
+    </div>
+
+    <div class="question-answer-6d">
+      <p class="question">Quelles sont les tonalités de l'armature avec 6&sharp; ?</p>
+      <p class="answer">fa&sharp; et ré&sharp;</p>
+    </div>
+
+    <div class="question-answer-6d question-majeur">
+      <p class="question">Quelles est la tonalité majeure de l'armature avec 6&sharp; ?</p>
+      <p class="answer">fa&sharp;</p>
+    </div>
+
+    <div class="question-answer-6d question-mineur">
+      <p class="question">Quelles est la tonalité mineure de l'armature avec 6&sharp; ?</p>
+      <p class="answer">ré&sharp;</p>
+    </div>
+
+    <div class="question-answer-7d">
+      <p class="question">Quelles sont les tonalités de l'armature avec 7&sharp; ?</p>
+      <p class="answer">do&sharp; et la&sharp;</p>
+    </div>
+
+    <div class="question-answer-7d question-majeur">
+      <p class="question">Quelles est la tonalité majeure de l'armature avec 7&sharp; ?</p>
+      <p class="answer">do&sharp;</p>
+    </div>
+
+    <div class="question-answer-7d question-mineur">
+      <p class="question">Quelles est la tonalité mineure de l'armature avec 7&sharp; ?</p>
+      <p class="answer">la&sharp;</p>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+  <div class="jeu-4">
+
+    <div class="question-answer-7b question-majeur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Do bémol majeur ?</p>
+      <p class="answer">do&flat;, ré&flat;, mi&flat;, fa&flat;, sol&flat;, la&flat; et si&flat;</p>
+    </div>
+
+    <div class="question-answer-7b question-mineur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de La bémol mineur ?</p>
+      <p class="answer">la&flat;, si&flat;, do&flat;, ré&flat;, mi&flat;, fa&flat; et sol&flat;</p>
+    </div>
+
+
+    <div class="question-answer-6b question-majeur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Sol bémol majeur ?</p>
+      <p class="answer">sol&flat;, la&flat;, si&flat;, do&flat;, ré&flat;, mi&flat; et fa</p>
+    </div>
+
+    <div class="question-answer-6b question-mineur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Mi bémol mineur ?</p>
+      <p class="answer">mi&flat;, fa, sol&flat;, la&flat;, si&flat;, do&flat; et ré&flat;</p>
+    </div>
+
+
+    <div class="question-answer-5b question-majeur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Ré bémol majeur ?</p>
+      <p class="answer">ré&flat;, mi&flat;, fa, sol&flat;, la&flat;, si&flat; et do</p>
+    </div>
+
+    <div class="question-answer-5b question-mineur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Si bémol mineur ?</p>
+      <p class="answer">si&flat;, do, ré&flat;, mi&flat;, fa, sol&flat; et la&flat;</p>
+    </div>
+
+    <div class="question-answer-4b question-majeur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de La bémol majeur ?</p>
+      <p class="answer">la&flat;, si&flat;, do, ré&flat;, mi&flat;, fa et sol</p>
+    </div>
+
+    <div class="question-answer-4b question-mineur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Fa mineur ?</p>
+      <p class="answer">fa, sol, la&flat;, si&flat;, do, ré&flat; et mi&flat;</p>
+    </div>
+
+
+    <div class="question-answer-3b question-majeur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Mi bémol majeur ?</p>
+      <p class="answer">mi&flat;, fa, sol, la&flat;, si&flat;, do et ré</p>
+    </div>
+
+    <div class="question-answer-3b question-mineur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Do mineur ?</p>
+      <p class="answer">do, ré, mi&flat;, fa, sol, la&flat; et si&flat;</p>
+    </div>
+
+
+    <div class="question-answer-2b question-majeur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Si bémol majeur ?</p>
+      <p class="answer">si&flat;, do, ré, mi&flat;, fa, sol et la</p>
+    </div>
+
+    <div class="question-answer-2b question-mineur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Sol mineur ?</p>
+      <p class="answer">sol, la, si&flat;, do, ré, mi&flat; et fa</p>
+    </div>
+
+
+    <div class="question-answer-1b question-majeur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Fa majeur ?</p>
+      <p class="answer">fa, sol, la, si&flat;, do, ré et mi</p>
+    </div>
+
+    <div class="question-answer-1b question-mineur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Ré mineur ?</p>
+      <p class="answer">ré, mi, fa, sol, la, si&flat; et do</p>
+    </div>
+
+    <div class="question-answer-0 question-majeur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Do majeur ?</p>
+      <p class="answer">do, ré, mi, fa, sol, la et si</p>
+    </div>
+
+    <div class="question-answer-0 question-mineur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de La mineur ?</p>
+      <p class="answer">la, si, do, ré, mi, fa et sol</p>
+    </div>
+
+
+    <div class="question-answer-1d question-majeur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Sol majeur ?</p>
+      <p class="answer">sol, la, si, do, ré, mi et fa&sharp;</p>
+    </div>
+
+    <div class="question-answer-1d question-mineur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Mi mineur ?</p>
+      <p class="answer">mi, fa&sharp;, sol, la, si, do et ré</p>
+    </div>
+
+
+    <div class="question-answer-2d question-majeur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Ré majeur ?</p>
+      <p class="answer">ré, mi, fa&sharp;, sol, la, si et do&sharp;</p>
+    </div>
+
+    <div class="question-answer-2d question-mineur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Si mineur ?</p>
+      <p class="answer">si, do&sharp;, ré, mi, fa&sharp;, sol et la</p>
+    </div>
+
+
+    <div class="question-answer-3d question-majeur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de La majeur ?</p>
+      <p class="answer">la, si, do&sharp;, ré, mi, fa&sharp; et sol&sharp;</p>
+    </div>
+
+    <div class="question-answer-3d question-mineur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Fa dièse mineur ?</p>
+      <p class="answer">fa&sharp;, sol&sharp;, la, si, do&sharp;, ré et mi</p>
+    </div>
+
+
+    <div class="question-answer-4d question-majeur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Mi majeur ?</p>
+      <p class="answer">mi, fa&sharp;, sol&sharp;, la, si, do&sharp; et ré&sharp;</p>
+    </div>
+
+
+    <div class="question-answer-4d question-mineur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Do dièse mineur ?</p>
+      <p class="answer">do&sharp;, ré&sharp;, mi, fa&sharp;, sol&sharp;, la et si</p>
+    </div>
+
+    <div class="question-answer-5d question-majeur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Si majeur ?</p>
+      <p class="answer">si, do&sharp;, ré&sharp;, mi, fa&sharp;, sol&sharp; et la&sharp;</p>
+    </div>
+
+    <div class="question-answer-5d question-mineur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Sol dièse mineur ?</p>
+      <p class="answer">sol&sharp;, la&sharp;, si, do&sharp;, ré&sharp;, mi et fa&sharp;</p>
+    </div>
+
+
+    <div class="question-answer-6d question-majeur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Fa majeur ?</p>
+      <p class="answer">fa&sharp;, sol&sharp;, la&sharp;, si, do&sharp;, ré&sharp; et mi&sharp;</p>
+    </div>
+
+    <div class="question-answer-6d question-mineur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Ré dièse mineur ?</p>
+      <p class="answer">ré&sharp;, mi&sharp;, fa&sharp;, sol&sharp;, la&sharp;, si et do&sharp;</p>
+    </div>
+
+    <div class="question-answer-7d question-majeur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de Do majeur ?</p>
+      <p class="answer">do&sharp;, ré&sharp;, mi&sharp;, fa&sharp;, sol&sharp;, la&sharp; et si&sharp;</p>
+    </div>
+
+    <div class="question-answer-7d question-mineur">
+      <p class="question">Quelles sont les différentes notes appartenant à l'échelle de La dièse mineur ?</p>
+      <p class="answer">la&sharp;, si&sharp;, do&sharp;, ré&sharp;, mi&sharp;, fa&sharp; et sol&sharp;</p>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+  <table id="connaissances">
+    <caption>Cercle de quintes</caption>
+      <tr>
+        <th scope="row">Tonalité</th>
+        <th scope="col">7B</th>
+        <th scope="col">6B</th>
+        <th scope="col">5B</th>
+        <th scope="col">4B</th>
+        <th scope="col">3B</th>
+        <th scope="col">2B</th>
+        <th scope="col">1B</th>
+        <th scope="col">0</th>
+        <th scope="col">1D</th>
+        <th scope="col">2D</th>
+        <th scope="col">3D</th>
+        <th scope="col">4D</th>
+        <th scope="col">5D</th>
+        <th scope="col">6D</th>
+        <th scope="col">7D</th>
+      </tr>
+      <tr>
+        <th scope="row">Mode majeur</th>
+        <td>
+          <table>
+            <caption>doB majeur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>doB</li>
+                  <li>réB</li>
+                  <li>miB</li>
+                  <li>faB</li>
+                  <li>solB</li>
+                  <li>laB</li>
+                  <li>siB</li>
+                  <li>doB</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>doB</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>miB</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>solB</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>siB</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>solB majeur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>solB</li>
+                  <li>laB</li>
+                  <li>siB</li>
+                  <li>doB</li>
+                  <li>réB</li>
+                  <li>miB</li>
+                  <li>fa</li>
+                  <li>solB</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>solB</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>siB</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>réB</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>fa</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>réB majeur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>réB</li>
+                  <li>miB</li>
+                  <li>fa</li>
+                  <li>solB</li>
+                  <li>laB</li>
+                  <li>siB</li>
+                  <li>do</li>
+                  <li>réB</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>réB</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>fa</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>laB</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>do</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>laB majeur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>laB</li>
+                  <li>siB</li>
+                  <li>do</li>
+                  <li>réB</li>
+                  <li>miB</li>
+                  <li>fa</li>
+                  <li>sol</li>
+                  <li>laB</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>laB</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>do</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>miB</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>sol</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>miB majeur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>miB</li>
+                  <li>fa</li>
+                  <li>sol</li>
+                  <li>laB</li>
+                  <li>siB</li>
+                  <li>do</li>
+                  <li>ré</li>
+                  <li>miB</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>miB</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>sol</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>siB</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>ré</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>siB majeur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>siB</li>
+                  <li>do</li>
+                  <li>ré</li>
+                  <li>miB</li>
+                  <li>fa</li>
+                  <li>sol</li>
+                  <li>la</li>
+                  <li>siB</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>siB</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>ré</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>fa</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>la</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>fa majeur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>fa</li>
+                  <li>sol</li>
+                  <li>la</li>
+                  <li>siB</li>
+                  <li>do</li>
+                  <li>ré</li>
+                  <li>mi</li>
+                  <li>fa</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>fa</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>la</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>do</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>mi</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>do majeur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>do</li>
+                  <li>ré</li>
+                  <li>mi</li>
+                  <li>fa</li>
+                  <li>sol</li>
+                  <li>la</li>
+                  <li>si</li>
+                  <li>do</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>do</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>mi</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>sol</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>si</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>solB majeur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>sol</li>
+                  <li>la</li>
+                  <li>si</li>
+                  <li>do</li>
+                  <li>ré</li>
+                  <li>mi</li>
+                  <li>faD</li>
+                  <li>sol</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>sol</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>si</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>ré</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>faD</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>ré majeur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>ré</li>
+                  <li>mi</li>
+                  <li>faD</li>
+                  <li>sol</li>
+                  <li>la</li>
+                  <li>si</li>
+                  <li>doD</li>
+                  <li>ré</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>ré</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>faD</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>la</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>doD</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>la majeur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>la</li>
+                  <li>si</li>
+                  <li>doD</li>
+                  <li>ré</li>
+                  <li>mi</li>
+                  <li>faD</li>
+                  <li>solD</li>
+                  <li>la</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>la</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>doD</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>mi</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>solD</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>mi majeur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>mi</li>
+                  <li>faD</li>
+                  <li>solD</li>
+                  <li>la</li>
+                  <li>si</li>
+                  <li>doD</li>
+                  <li>réD</li>
+                  <li>mi</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>mi</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>solD</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>si</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>réD</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>siB majeur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>si</li>
+                  <li>doD</li>
+                  <li>réD</li>
+                  <li>mi</li>
+                  <li>faD</li>
+                  <li>solD</li>
+                  <li>laD</li>
+                  <li>si</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>si</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>réD</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>faD</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>laD</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>faD majeur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>faD</li>
+                  <li>solD</li>
+                  <li>laD</li>
+                  <li>si</li>
+                  <li>doD</li>
+                  <li>réD</li>
+                  <li>miD</li>
+                  <li>faD</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>faD</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>laD</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>doD</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>miD</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>doD majeur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>doD</li>
+                  <li>réD</li>
+                  <li>miD</li>
+                  <li>faD</li>
+                  <li>solD</li>
+                  <li>laD</li>
+                  <li>siD</li>
+                  <li>doD</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>doD</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>miD</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>solD</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>siD</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">Mode mineur</th>
+        <td>
+          <table>
+            <caption>laB mineur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>laB</li>
+                  <li>siB</li>
+                  <li>doB</li>
+                  <li>réB</li>
+                  <li>miB</li>
+                  <li>faB</li>
+                  <li>solB</li>
+                  <li>laB</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>laB</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>doB</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>miB</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>solB</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>miB mineur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>miB</li>
+                  <li>fa</li>
+                  <li>solB</li>
+                  <li>laB</li>
+                  <li>siB</li>
+                  <li>doB</li>
+                  <li>réB</li>
+                  <li>miB</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>miB</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>solB</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>siB</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>réB</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>siB mineur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>siB</li>
+                  <li>do</li>
+                  <li>réB</li>
+                  <li>miB</li>
+                  <li>fa</li>
+                  <li>solB</li>
+                  <li>laB</li>
+                  <li>siB</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>siB</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>réB</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>fa</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>laB</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>fa mineur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>fa</li>
+                  <li>sol</li>
+                  <li>laB</li>
+                  <li>siB</li>
+                  <li>do</li>
+                  <li>réB</li>
+                  <li>miB</li>
+                  <li>fa</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>fa</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>laB</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>do</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>miB</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>do mineur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>do</li>
+                  <li>ré</li>
+                  <li>miB</li>
+                  <li>fa</li>
+                  <li>sol</li>
+                  <li>laB</li>
+                  <li>siB</li>
+                  <li>do</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>do</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>miB</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>sol</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>siB</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>sol mineur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>sol</li>
+                  <li>la</li>
+                  <li>siB</li>
+                  <li>do</li>
+                  <li>ré</li>
+                  <li>miB</li>
+                  <li>fa</li>
+                  <li>sol</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>sol</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>siB</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>ré</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>fa</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>ré mineur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>ré</li>
+                  <li>mi</li>
+                  <li>fa</li>
+                  <li>sol</li>
+                  <li>la</li>
+                  <li>siB</li>
+                  <li>do</li>
+                  <li>ré</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>ré</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>fa</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>la</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>do</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>la mineur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>la</li>
+                  <li>si</li>
+                  <li>do</li>
+                  <li>ré</li>
+                  <li>mi</li>
+                  <li>fa</li>
+                  <li>sol</li>
+                  <li>la</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>la</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>do</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>mi</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>sol</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>mi mineur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>mi</li>
+                  <li>faD</li>
+                  <li>sol</li>
+                  <li>la</li>
+                  <li>si</li>
+                  <li>do</li>
+                  <li>ré</li>
+                  <li>mi</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>mi</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>sol</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>si</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>ré</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>si mineur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>si</li>
+                  <li>doD</li>
+                  <li>ré</li>
+                  <li>mi</li>
+                  <li>faD</li>
+                  <li>sol</li>
+                  <li>la</li>
+                  <li>si</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>si</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>ré</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>faD</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>la</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>faD mineur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>faD</li>
+                  <li>solD</li>
+                  <li>la</li>
+                  <li>si</li>
+                  <li>doD</li>
+                  <li>ré</li>
+                  <li>mi</li>
+                  <li>faD</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>faD</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>la</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>doD</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>mi</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>doD mineur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>doD</li>
+                  <li>réD</li>
+                  <li>mi</li>
+                  <li>faD</li>
+                  <li>solD</li>
+                  <li>la</li>
+                  <li>si</li>
+                  <li>doD</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>doD</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>mi</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>solD</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>si</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>solD mineur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>solD</li>
+                  <li>laD</li>
+                  <li>si</li>
+                  <li>doD</li>
+                  <li>réD</li>
+                  <li>mi</li>
+                  <li>faD</li>
+                  <li>solD</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>solD</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>si</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>réD</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>faD</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>réD mineur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul>
+                  <li>réD</li>
+                  <li>miD</li>
+                  <li>faD</li>
+                  <li>solD</li>
+                  <li>laD</li>
+                  <li>si</li>
+                  <li>doD</li>
+                  <li>réD</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>réD</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>faD</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>laD</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>doD</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <caption>laD mineur</caption>
+            <tr>
+              <th scope="row">échelle</th>
+              <td>
+                <ul><!--  -->
+                  <li>laD</li>
+                  <li>siD</li>
+                  <li>doD</li>
+                  <li>réD</li>
+                  <li>miD</li>
+                  <li>faD</li>
+                  <li>solD</li>
+                  <li>laD</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">tonique</th>
+              <td>laD</td>
+            </tr>
+            <tr>
+              <th scope="row">médiante</th>
+              <td>doD</td>
+            </tr>
+            <tr>
+              <th scope="row">dominante</th>
+              <td>miD</td>
+            </tr>
+            <tr>
+              <th scope="row">sensible</th>
+              <td>solD</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+  </table>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
